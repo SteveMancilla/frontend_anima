@@ -18,7 +18,6 @@ import {
 
 // 🔹 IMPORTA TUS IMÁGENES DESDE src/assets
 // Ajusta los nombres EXACTAMENTE como están en tu carpeta.
-// Si tus archivos se llaman "Enojado- 1.png" (con espacio), usa también el espacio.
 import angry1 from "../assets/image/Enojado- 1.png";
 import angry2 from "../assets/image/Enojado- 2.png";
 import angry3 from "../assets/image/Enojado- 3.png";
@@ -316,10 +315,11 @@ const EmotionFeed: React.FC = () => {
 
         {/* Panel de emociones colapsable */}
         <aside
-          className={`relative border-l border-slate-800 bg-[#020617] transition-all duration-300 ${
-            showEmotionPanel ? "w-[360px]" : "w-0"
-          } overflow-hidden`}
+          className={`relative border-l border-slate-800 bg-[#020617] transition-all duration-300 flex-shrink-0 ${
+            showEmotionPanel ? "w-[360px]" : "w-6"
+          }`}
         >
+          {/* Botón SIEMPRE visible */}
           <button
             onClick={() => setShowEmotionPanel((prev) => !prev)}
             className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 rounded-full bg-slate-900 border border-slate-700 p-2 text-slate-200 hover:bg-slate-800 shadow-lg"
@@ -331,8 +331,9 @@ const EmotionFeed: React.FC = () => {
             )}
           </button>
 
+          {/* Contenido solo cuando está abierto */}
           {showEmotionPanel && (
-            <div className="h-full">
+            <div className="h-full overflow-y-auto">
               <EmotionCam />
             </div>
           )}
