@@ -66,7 +66,7 @@ const Home: React.FC = () => {
 
           {/* BOTÓN COMENZAR CON GRADIENTE ANIMADO */}
           <button
-            onClick={() => navigate("/feed")}
+            onClick={() => navigate("/emotion")}
             className="
               mt-10 px-10 py-3 rounded-xl 
               font-semibold text-lg 
