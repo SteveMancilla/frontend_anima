@@ -161,3 +161,23 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+@keyframes chatAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+    filter: blur(2px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.02);
+    filter: blur(0px);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-chat-appear {
+  animation: chatAppear 0.35s ease-out forwards;
+}

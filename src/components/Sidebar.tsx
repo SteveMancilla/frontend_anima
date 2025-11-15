@@ -46,7 +46,7 @@ const Sidebar = () => {
       </nav>
 
       {/* FOOTER */}
-      <div className="mt-auto px-2 text-[13px] text-slate-500 leading-tight">
+      <div className="mt-90 px-2 text-[13px] text-slate-500 leading-tight">
         © 2025 ANIMA — CodeSquad  
         <br />
         Universidad Continental
