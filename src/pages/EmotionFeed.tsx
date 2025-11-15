@@ -1,19 +1,16 @@
 // src/pages/EmotionFeed.tsx
 import React, { useEffect, useRef, useState } from "react";
 import EmotionCam from "../components/EmotionCam";
+import Sidebar from "../components/Sidebar";
 import {
-  Home,
-  Compass,
-  GraduationCap,
-  MessageCircle,
-  Bookmark,
-  User,
   Heart,
   Share2,
   Volume2,
   VolumeX,
   ChevronUp,
   ChevronDown,
+  MessageCircle,
+  Bookmark,
 } from "lucide-react";
 
 // 🔹 IMPORTA TUS IMÁGENES DESDE src/assets
@@ -117,7 +114,9 @@ const EmotionFeed: React.FC = () => {
   }, [currentIndex, current.type, isMuted]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? CAPSULES.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? CAPSULES.length - 1 : prev - 1
+    );
   };
 
   const handleNext = () => {
@@ -138,54 +137,8 @@ const EmotionFeed: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-slate-50 flex">
-      {/* Sidebar izquierda tipo TikTok */}
-      <aside className="w-64 border-r border-slate-800 bg-[#050509] flex flex-col justify-between py-4 px-3">
-        <div>
-          {/* Logo + nombre */}
-          <div className="flex items-center gap-2 px-2 mb-6">
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-yellow-300 flex items-center justify-center">
-              <span className="text-xs font-black tracking-tight">A</span>
-            </div>
-            <span className="text-lg font-semibold bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
-              ANIMA
-            </span>
-          </div>
-
-          {/* Menú */}
-          <nav className="space-y-1 text-sm">
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 bg-slate-900 text-slate-50">
-              <Home className="h-4 w-4" />
-              <span>Para ti</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-slate-900/70">
-              <Compass className="h-4 w-4" />
-              <span>Explorar</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-slate-900/70">
-              <GraduationCap className="h-4 w-4" />
-              <span>Aprendizaje</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-slate-900/70">
-              <MessageCircle className="h-4 w-4" />
-              <span>Mensajes</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-slate-900/70">
-              <Bookmark className="h-4 w-4" />
-              <span>Guardados</span>
-            </button>
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-slate-300 hover:bg-slate-900/70">
-              <User className="h-4 w-4" />
-              <span>Perfil</span>
-            </button>
-          </nav>
-        </div>
-
-        {/* Footer mini */}
-        <div className="px-3 text-[11px] text-slate-500 space-y-1">
-          <p>© 2025 ANIMA — CodeSquad</p>
-          <p>Universidad Continental</p>
-        </div>
-      </aside>
+      {/* Sidebar reutilizable */}
+      <Sidebar />
 
       {/* Zona central + panel de emociones */}
       <main className="flex-1 flex overflow-hidden">
@@ -248,7 +201,7 @@ const EmotionFeed: React.FC = () => {
               </button>
             </div>
 
-            {/* COLUMNA DE ACCIONES, AL COSTADO DE LA CÁPSULA */}
+            {/* COLUMNA DE ACCIONES AL COSTADO DE LA CÁPSULA */}
             <div className="flex flex-col items-center gap-4">
               {/* Usuario / perfil del creador */}
               <button className="flex flex-col items-center gap-1">
