@@ -1,5 +1,6 @@
 // src/components/Sidebar.tsx
 import React from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../assets/logo-anima.svg";
 import {
   Home,
@@ -10,14 +11,20 @@ import {
   Film,
 } from "lucide-react";
 
-const Sidebar = () => {
-  const menuItems = [
-    { label: "Para ti", icon: <Home size={22} /> },
-    { label: "Explorar", icon: <Compass size={22} /> },
-    { label: "Aprendizaje", icon: <Film size={22} /> },
-    { label: "Mensajes", icon: <MessageCircle size={22} /> },
-    { label: "Guardados", icon: <Bookmark size={22} /> },
-    { label: "Perfil", icon: <User size={22} /> },
+type MenuItem = {
+  label: string;
+  icon: React.ReactNode;
+  to: string;
+};
+
+const Sidebar: React.FC = () => {
+  const menuItems: MenuItem[] = [
+    { label: "Para ti", icon: <Home size={22} />, to: "/emotion" },
+    { label: "Explorar", icon: <Compass size={22} />, to: "/home" },
+    { label: "Aprendizaje", icon: <Film size={22} />, to: "/aprendizaje" },
+    { label: "Mensajes", icon: <MessageCircle size={22} />, to: "/home" },
+    { label: "Guardados", icon: <Bookmark size={22} />, to: "/home" },
+    { label: "Perfil", icon: <User size={22} />, to: "/home" },
   ];
 
   return (
@@ -30,24 +37,30 @@ const Sidebar = () => {
         </span>
       </div>
 
-      {/* MENU */}
+      {/* MENÚ */}
       <nav className="flex flex-col gap-1">
         {menuItems.map((item) => (
-          <button
+          <NavLink
             key={item.label}
-            className="flex items-center gap-4 px-4 py-3 rounded-xl 
-            text-base font-medium text-slate-200 
-            hover:bg-white/10 transition-colors"
+            to={item.to}
+            className={({ isActive }) =>
+              [
+                "flex items-center gap-4 px-4 py-3 rounded-xl text-base font-medium transition-colors",
+                isActive
+                  ? "bg-white/15 text-sky-200"
+                  : "text-slate-200 hover:bg-white/10",
+              ].join(" ")
+            }
           >
             {item.icon}
             <span>{item.label}</span>
-          </button>
+          </NavLink>
         ))}
       </nav>
 
       {/* FOOTER */}
       <div className="mt-auto px-2 text-[13px] text-slate-500 leading-tight">
-        © 2025 ANIMA — CodeSquad  
+        © 2025 ANIMA — CodeSquad
         <br />
         Universidad Continental
       </div>
