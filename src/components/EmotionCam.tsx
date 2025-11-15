@@ -1,6 +1,7 @@
 // src/components/EmotionCam.tsx
 import React, { useEffect, useRef, useState } from "react";
 import * as faceapi from "face-api.js";
+import { useEmotion } from "../lib/EmotionContext";
 
 const EMOTION_KEYS = [
   "happy",
@@ -47,6 +48,8 @@ const EMOTION_COLORS: Record<EmotionKey, string> = {
 const EmotionCam: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const { setEmotion } = useEmotion();
 
   const [currentEmotion, setCurrentEmotion] = useState<string>("Cargando…");
   const [engagement, setEngagement] = useState<EngagementState>("sin rostro");
@@ -194,6 +197,7 @@ const EmotionCam: React.FC = () => {
         });
 
         setCurrentEmotion(`${bestEmotion} (${bestScore.toFixed(2)})`);
+        setEmotion(bestEmotion);
 
         // Engagement ANIMA
         const eng = inferEngagement(expressions);

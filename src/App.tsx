@@ -1,13 +1,15 @@
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
+import { EmotionProvider } from "./lib/EmotionContext";
 
 function App() {
-
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <EmotionProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </EmotionProvider>
   );
 }
 
-export default App
+export default App;

@@ -1,4 +1,5 @@
 // src/pages/EmotionFeed.tsx
+import { useEmotion } from "../lib/EmotionContext";
 import React, { useEffect, useRef, useState } from "react";
 import EmotionCam from "../components/EmotionCam";
 import {
@@ -16,11 +17,51 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-// 🔹 IMPORTA TUS IMÁGENES DESDE src/assets
-// Ajusta los nombres EXACTAMENTE como están en tu carpeta.
-import angry1 from "../assets/image/Enojado- 1.png";
-import angry2 from "../assets/image/Enojado- 2.png";
-import angry3 from "../assets/image/Enojado- 3.png";
+import disgust1 from "../assets/image/Disgustado_1.png";
+import disgust2 from "../assets/image/Disgustado_2.png";
+
+import angry1 from "../assets/image/Enojado_1.png";
+import angry2 from "../assets/image/Enojado_2.png";
+import angry3 from "../assets/image/Enojado_3.png";
+import angry4 from "../assets/image/Enojado_4.png";
+import angry5 from "../assets/image/Enojado_5.png";
+
+import happy1 from "../assets/image/Feliz_1.png";
+import happy2 from "../assets/image/Feliz_2.png";
+import happy3 from "../assets/image/Feliz_3.png";
+import happy4 from "../assets/image/Feliz_4.png";
+import happy5 from "../assets/image/Feliz_5.png";
+
+import neutral1 from "../assets/image/Neutral_1.png";
+import neutral2 from "../assets/image/Neutral_2.png";
+
+import surprise1 from "../assets/image/Sorprendido_1.png";
+import surprise2 from "../assets/image/Sorprendido_2.png";
+import surprise3 from "../assets/image/Sorprendido_3.png";
+import surprise4 from "../assets/image/Sorprendido_4.png";
+import surprise5 from "../assets/image/Sorprendido_5.png";
+
+import scared1 from "../assets/image/Temeroso_1.png";
+import scared2 from "../assets/image/Temeroso_2.png";
+
+import sad1 from "../assets/image/Triste_1.png";
+import sad2 from "../assets/image/Triste_2.png";
+import sad3 from "../assets/image/Triste_3.png";
+import sad4 from "../assets/image/Triste_4.png";
+import sad5 from "../assets/image/Triste_5.png";
+
+const defaultCapsule = {
+  tags: ["#anima"],
+  stats: {
+    likes: 0,
+    comments: 0,
+    saves: 0,
+    shares: 0,
+  },
+};
+
+const makeCapsule = (caps: Partial<Capsule>[]): Capsule[] =>
+  caps.map((c) => ({ ...defaultCapsule, ...c })) as Capsule[];
 
 // Tipo de cápsula (contenido principal del feed)
 type CapsuleType = "video" | "image";
@@ -41,65 +82,76 @@ type Capsule = {
   };
 };
 
-// Demo de cápsulas: mezcla de video + imágenes
-const CAPSULES: Capsule[] = [
-  {
-    id: "capsula-1",
-    type: "image",
-    src: angry1,
-    title: "¿Te has sentido así estudiando?",
-    description:
-      "Mini cápsula de ANIMA sobre cómo regular tus emociones mientras aprendes.",
-    author: "@anima.edu",
-    tags: ["#aprendizaje", "#emociones", "#anima"],
-    stats: {
-      likes: 2450,
-      comments: 321,
-      saves: 120,
-      shares: 58,
-    },
-  },
-  {
-    id: "capsula-2",
-    type: "image",
-    src: angry2,
-    title: "Mapa mental para repasar más rápido",
-    description: "Plantilla visual para estudiar mejor sin saturarte.",
-    author: "@anima.edu",
-    tags: ["#mapamental", "#estudio", "#visual"],
-    stats: {
-      likes: 1800,
-      comments: 95,
-      saves: 340,
-      shares: 41,
-    },
-  },
-  {
-    id: "capsula-3",
-    type: "image",
-    src: angry3,
-    title: "Checklist emocional antes de estudiar",
-    description:
-      "3 preguntas rápidas para alinear tus emociones antes de una sesión intensa.",
-    author: "@anima.edu",
-    tags: ["#bienestar", "#checklist", "#emocional"],
-    stats: {
-      likes: 920,
-      comments: 40,
-      saves: 210,
-      shares: 15,
-    },
-  },
-];
+const FEED_DISGUST = makeCapsule([
+  { id: "disgust-1", type: "image", src: disgust1, title: "¿Molesto?", description: "Respira, ANIMA te apoya.", author: "@anima" },
+  { id: "disgust-2", type: "image", src: disgust2, title: "Mala experiencia", description: "Consejos rápidos.", author: "@anima" }
+]);
+
+const FEED_ANGRY = makeCapsule([
+  { id: "angry-1", type: "image", src: angry1, title: "Calma tu enojo", description: "Guía rápida.", author: "@anima" },
+  { id: "angry-2", type: "image", src: angry2, title: "Frustración al estudiar", description: "Técnicas anti-estrés.", author: "@anima" },
+  { id: "angry-3", type: "image", src: angry3, title: "Respira antes de seguir", description: "Regulación emocional.", author: "@anima" },
+  { id: "angry-4", type: "image", src: angry4, title: "Respira antes de seguir", description: "Regulación emocional.", author: "@anima" },
+  { id: "angry-5", type: "image", src: angry5, title: "Respira antes de seguir", description: "Regulación emocional.", author: "@anima" }
+]);
+
+const FEED_HAPPY = makeCapsule([
+  { id: "happy-1", type: "image", src: happy1, title: "¡Excelente ánimo!", description: "Aprovecha tu energía.", author: "@anima" },
+  { id: "happy-2", type: "image", src: happy2, title: "Aprende disfrutando", description: "Contenido motivador.", author: "@anima" },
+  { id: "happy-3", type: "image", src: happy3, title: "Aprende disfrutando", description: "Contenido motivador.", author: "@anima" },
+  { id: "happy-4", type: "image", src: happy4, title: "Aprende disfrutando", description: "Contenido motivador.", author: "@anima" },
+  { id: "happy-5", type: "image", src: happy5, title: "Aprende disfrutando", description: "Contenido motivador.", author: "@anima" }
+]);
+
+const FEED_NEUTRAL = makeCapsule([
+  { id: "neutral-1", type: "image", src: neutral1, title: "Estado neutral", description: "Enfócate paso a paso.", author: "@anima" },
+  { id: "neutral-2", type: "image", src: neutral2, title: "Estado neutral", description: "Enfócate paso a paso.", author: "@anima" }
+]);
+
+const FEED_SURPRISE = makeCapsule([
+  { id: "surprise-1", type: "image", src: surprise1, title: "¿Sorprendido?", description: "Descubre más.", author: "@anima" },
+  { id: "surprise-2", type: "image", src: surprise2, title: "¿Sorprendido?", description: "Descubre más.", author: "@anima" },
+  { id: "surprise-3", type: "image", src: surprise3, title: "¿Sorprendido?", description: "Descubre más.", author: "@anima" },
+  { id: "surprise-4", type: "image", src: surprise4, title: "¿Sorprendido?", description: "Descubre más.", author: "@anima" },
+  { id: "surprise-5", type: "image", src: surprise5, title: "¿Sorprendido?", description: "Descubre más.", author: "@anima" }
+]);
+
+const FEED_SCARED = makeCapsule([
+  { id: "scared-1", type: "image", src: scared1, title: "Si sientes temor…", description: "No estás solo.", author: "@anima" },
+  { id: "scared-2", type: "image", src: scared2, title: "Si sientes temor…", description: "No estás solo.", author: "@anima" }
+]);
+
+const FEED_SAD = makeCapsule([
+  { id: "sad-1", type: "image", src: sad1, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" },
+  { id: "sad-2", type: "image", src: sad2, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" },
+  { id: "sad-3", type: "image", src: sad3, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" },
+  { id: "sad-4", type: "image", src: sad4, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" },
+  { id: "sad-5", type: "image", src: sad5, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" }
+]);
 
 const EmotionFeed: React.FC = () => {
+  const { emotion } = useEmotion();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const [showEmotionPanel, setShowEmotionPanel] = useState(true);
-
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const current = CAPSULES[currentIndex];
+  const FEED = React.useMemo(() => {
+    switch (emotion) {
+      case "disgust": return FEED_DISGUST;
+      case "angry": return FEED_ANGRY;
+      case "happy": return FEED_HAPPY;
+      case "neutral": return FEED_NEUTRAL;
+      case "surprised": return FEED_SURPRISE;
+      case "fear": return FEED_SCARED;
+      case "sad": return FEED_SAD;
+      default: return FEED_NEUTRAL;
+    }
+  }, [emotion]);
+  
+
+  const safeIndex = Math.min(currentIndex, FEED.length - 1);
+  const current = FEED[safeIndex];
 
   // Cuando cambia de cápsula: si es video, reiniciar y reproducir
   useEffect(() => {
@@ -119,14 +171,15 @@ const EmotionFeed: React.FC = () => {
   }, [currentIndex, current.type, isMuted]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? CAPSULES.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? FEED.length - 1 : prev - 1));
   };
-
+  
   const handleNext = () => {
     setCurrentIndex((prev) =>
-      prev === CAPSULES.length - 1 ? 0 : prev + 1
+      prev === FEED.length - 1 ? 0 : prev + 1
     );
   };
+  
 
   const toggleMute = () => {
     setIsMuted((prev) => {
