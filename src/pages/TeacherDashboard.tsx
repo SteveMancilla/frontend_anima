@@ -1,5 +1,5 @@
 // src/pages/TeacherDashboard.tsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { api } from "../lib/axios";
 import MaterialCard from "../components/MaterialCard";
 import FileDropzone from "../components/FileDropzone";

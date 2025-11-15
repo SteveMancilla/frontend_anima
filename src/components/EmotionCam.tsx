@@ -105,7 +105,6 @@ const EmotionCam: React.FC = () => {
       angry = 0,
       surprised = 0,
       disgusted = 0,
-      fearful = 0,
       neutral = 0,
     } = expressions;
 
