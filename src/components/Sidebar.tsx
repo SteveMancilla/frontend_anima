@@ -1,5 +1,6 @@
 // src/components/Sidebar.tsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo-anima.svg";
 import {
   Home,
@@ -11,6 +12,8 @@ import {
 } from "lucide-react";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   const menuItems = [
     { label: "Para ti", icon: <Home size={22} /> },
     { label: "Explorar", icon: <Compass size={22} /> },
@@ -22,13 +25,17 @@ const Sidebar = () => {
 
   return (
     <aside className="w-64 h-screen bg-[#06060A] border-r border-white/10 px-5 py-6 flex flex-col gap-10 select-none">
-      {/* LOGO ANIMA */}
-      <div className="flex items-center gap-3 px-2">
+
+      {/* LOGO ANIMA (CLICK → /home) */}
+      <button
+        onClick={() => navigate("/home")}
+        className="flex items-center gap-3 px-2 cursor-pointer"
+      >
         <img src={logo} alt="ANIMA" className="w-10 h-10" />
         <span className="text-2xl font-extrabold bg-gradient-to-r from-sky-400 to-fuchsia-500 text-transparent bg-clip-text tracking-wide">
           ANIMA
         </span>
-      </div>
+      </button>
 
       {/* MENU */}
       <nav className="flex flex-col gap-1">
