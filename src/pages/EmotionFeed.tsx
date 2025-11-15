@@ -3,6 +3,8 @@ import { useEmotion } from "../lib/EmotionContext";
 import React, { useEffect, useRef, useState } from "react";
 import EmotionCam from "../components/EmotionCam";
 import Sidebar from "../components/Sidebar";
+import ChatBubble from "../components/ChatBubble";
+import ChatButton from "../components/ChatButton";
 import {
   Heart,
   Share2,
@@ -126,57 +128,6 @@ const FEED_SAD = makeCapsule([
   { id: "sad-5", type: "image", src: sad5, title: "Si te sientes triste…", description: "Respira y sigue.", author: "@anima" }
 ]);
 
-// Demo de cápsulas
-const CAPSULES: Capsule[] = [
-  {
-    id: "capsula-1",
-    type: "image",
-    src: angry1,
-    title: "¿Te has sentido así estudiando?",
-    description:
-      "Mini cápsula de ANIMA sobre cómo regular tus emociones mientras aprendes.",
-    author: "@anima.edu",
-    tags: ["#aprendizaje", "#emociones", "#anima"],
-    stats: {
-      likes: 2450,
-      comments: 321,
-      saves: 120,
-      shares: 58,
-    },
-  },
-  {
-    id: "capsula-2",
-    type: "image",
-    src: angry2,
-    title: "Mapa mental para repasar más rápido",
-    description: "Plantilla visual para estudiar mejor sin saturarte.",
-    author: "@anima.edu",
-    tags: ["#mapamental", "#estudio", "#visual"],
-    stats: {
-      likes: 1800,
-      comments: 95,
-      saves: 340,
-      shares: 41,
-    },
-  },
-  {
-    id: "capsula-3",
-    type: "image",
-    src: angry3,
-    title: "Checklist emocional antes de estudiar",
-    description:
-      "3 preguntas rápidas para alinear tus emociones antes de una sesión intensa.",
-    author: "@anima.edu",
-    tags: ["#bienestar", "#checklist", "#emocional"],
-    stats: {
-      likes: 920,
-      comments: 40,
-      saves: 210,
-      shares: 15,
-    },
-  },
-];
-
 const EmotionFeed: React.FC = () => {
   const { emotion } = useEmotion();
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -220,16 +171,13 @@ const EmotionFeed: React.FC = () => {
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? FEED.length - 1 : prev - 1));
-    setCurrentIndex((prev) =>
-      prev === 0 ? CAPSULES.length - 1 : prev - 1
-    );
-  };
+  };  
   
   const handleNext = () => {
     setCurrentIndex((prev) =>
       prev === FEED.length - 1 ? 0 : prev + 1
     );
-  };
+  };  
   
 
   const toggleMute = () => {
@@ -242,17 +190,56 @@ const EmotionFeed: React.FC = () => {
     });
   };
 
+  const CHAT_MESSAGES: Record<string, string[]> = {
+    sad: [
+      "Tranquilo, estoy aquí para ti",
+      "Respira… no estás solo.",
+      "Todo estará bien, paso a paso."
+    ]
+  };
+  
+  const [chatMessage, setChatMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const msgs = CHAT_MESSAGES[emotion];
+    if (!msgs) return;
+  
+    const randomMsg = msgs[Math.floor(Math.random() * msgs.length)];
+  
+    // Evitar el warning de setState sincrono
+    const showTimer = setTimeout(() => {
+      setChatMessage(randomMsg);
+    }, 0);
+  
+    const hideTimer = setTimeout(() => {
+      setChatMessage(null);
+    }, 5000);
+  
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
+  
+  }, [emotion]);  
+
+
   return (
     <div className="min-h-screen bg-black text-slate-50 flex">
+      
       {/* Sidebar reutilizable */}
       <Sidebar />
-
       {/* Zona central + panel de emociones */}
       <main className="flex-1 flex overflow-hidden">
         {/* Columna central: cápsula + acciones */}
-        <section className="flex flex-1 items-center justify-center">
-          <div className="flex items-center gap-6">
-            {/* CÁPSULA VERTICAL */}
+        <section className="flex flex-1 items-start justify-center pt-8">
+
+          <div className="flex items-center gap-6 relative">
+
+    {/* 💬 BOTÓN FIJO (siempre visible) */}
+    <div className="absolute left-full bottom-32 ml-10">
+      <ChatButton />
+      {chatMessage && <ChatBubble message={chatMessage} />}
+    </div>
             <div className="relative h-[88vh] aspect-[9/16] max-w-[480px] overflow-hidden rounded-[32px] bg-slate-900 shadow-[0_0_40px_rgba(0,0,0,0.55)]">
               {current.type === "video" ? (
                 <video

@@ -289,19 +289,44 @@ const Home: React.FC = () => {
 
   {/* RIGHT: LINKS CON SEPARADORES */}
   <div className="flex items-center gap-6 text-gray-300 text-sm">
-    <a href="#" className="hover:text-white transition">Política de privacidad</a>
+
+    {/*Politicas de privacidad*/}
+    <span 
+      onClick={() => navigate("/privacidad")}
+      className="hover:text-white transition cursor-pointer"
+      >
+      Política de privacidad
+    </span>
 
     <div className="w-[1px] h-4 bg-[#2A2A2D]" />
 
-    <a href="#" className="hover:text-white transition">Condiciones de servicio</a>
+    {/*Condiciones de servicio*/}
+    <span
+      onClick={() => navigate("/condiciones")}
+      className="hover:text-white transition cursor-pointer"
+      > 
+      Condiciones de servicio
+    </span>
 
     <div className="w-[1px] h-4 bg-[#2A2A2D]" />
 
-    <a href="#" className="hover:text-white transition">Sobre nosotros</a>
+    {/*Sobre nosotros*/}
+    <span
+      onClick={() => navigate("/sobre-nosotros")}
+      className="hover:text-white transition cursor-pointer"
+      >
+      Sobre nosotros
+    </span>
 
     <div className="w-[1px] h-4 bg-[#2A2A2D]" />
 
-    <a href="#" className="hover:text-white transition">Ayuda</a>
+    {/*Ayuda*/}
+    <span
+    onClick={() => navigate("/ayuda")}
+    className="hover:text-white transition cursor-pointer"
+    >
+    Ayuda
+    </span>
   </div>
 </div>
 
