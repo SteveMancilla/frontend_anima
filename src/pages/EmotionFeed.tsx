@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 
 // 🔹 IMPORTA TUS IMÁGENES DESDE src/assets
-// Ajusta los nombres EXACTAMENTE como están en tu carpeta.
 import angry1 from "../assets/image/Enojado- 1.png";
 import angry2 from "../assets/image/Enojado- 2.png";
 import angry3 from "../assets/image/Enojado- 3.png";
@@ -41,7 +40,7 @@ type Capsule = {
   };
 };
 
-// Demo de cápsulas: mezcla de video + imágenes
+// Demo de cápsulas
 const CAPSULES: Capsule[] = [
   {
     id: "capsula-1",
@@ -98,7 +97,6 @@ const EmotionFeed: React.FC = () => {
   const [showEmotionPanel, setShowEmotionPanel] = useState(true);
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
-
   const current = CAPSULES[currentIndex];
 
   // Cuando cambia de cápsula: si es video, reiniciar y reproducir
@@ -190,65 +188,69 @@ const EmotionFeed: React.FC = () => {
       </aside>
 
       {/* Zona central + panel de emociones */}
-      <main className="flex-1 flex">
-        {/* Columna central: cápsula vertical */}
-        <section className="flex-1 flex flex-col items-center justify-center relative">
-          <div className="relative mx-auto aspect-[9/16] max-h-[80vh] w-full max-w-md overflow-hidden rounded-3xl bg-slate-900">
-            {current.type === "video" ? (
-              <video
-                key={current.id}
-                ref={videoRef}
-                src={current.src}
-                className="w-full h-full object-cover"
-                loop
-                muted={isMuted}
-                playsInline
-                autoPlay
-              />
-            ) : (
-              <img
-                key={current.id}
-                src={current.src}
-                alt={current.title}
-                className="w-full h-full object-cover"
-              />
-            )}
+      <main className="flex-1 flex overflow-hidden">
+        {/* Columna central: cápsula + acciones */}
+        <section className="flex flex-1 items-center justify-center">
+          <div className="flex items-center gap-6">
+            {/* CÁPSULA VERTICAL */}
+            <div className="relative h-[88vh] aspect-[9/16] max-w-[480px] overflow-hidden rounded-[32px] bg-slate-900 shadow-[0_0_40px_rgba(0,0,0,0.55)]">
+              {current.type === "video" ? (
+                <video
+                  key={current.id}
+                  ref={videoRef}
+                  src={current.src}
+                  className="w-full h-full object-cover"
+                  loop
+                  muted={isMuted}
+                  playsInline
+                  autoPlay
+                />
+              ) : (
+                <img
+                  key={current.id}
+                  src={current.src}
+                  alt={current.title}
+                  className="w-full h-full object-cover"
+                />
+              )}
 
-            {/* Filtro degradado */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+              {/* Filtro degradado para textos inferiores */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-            {/* Textos inferiores */}
-            <div className="absolute inset-x-0 bottom-4 px-4 text-sm">
-              <p className="font-semibold mb-1">{current.title}</p>
-              <p className="text-xs text-slate-200 mb-2 line-clamp-2">
-                {current.description}
-              </p>
-              <div className="flex items-center justify-between text-xs text-slate-300">
-                <span>{current.author}</span>
-                <span className="flex gap-2">
-                  {current.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </span>
+              {/* Textos sobrepuestos en la parte inferior */}
+              <div className="absolute inset-x-0 bottom-4 px-4 text-sm">
+                <p className="font-semibold mb-1">{current.title}</p>
+                <p className="text-xs text-slate-200 mb-2 line-clamp-2">
+                  {current.description}
+                </p>
+                <div className="flex items-center justify-between text-xs text-slate-300">
+                  <span>{current.author}</span>
+                  <span className="flex gap-2">
+                    {current.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </span>
+                </div>
               </div>
+
+              {/* Flechas arriba / abajo estilo TikTok */}
+              <button
+                onClick={handlePrev}
+                className="absolute left-1/2 top-3 -translate-x-1/2 rounded-full bg-black/60 p-2 text-slate-100 hover:bg-black/80 transition"
+              >
+                <ChevronUp className="h-4 w-4" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="absolute left-1/2 bottom-3 -translate-x-1/2 rounded-full bg-black/60 p-2 text-slate-100 hover:bg-black/80 transition"
+              >
+                <ChevronDown className="h-4 w-4" />
+              </button>
             </div>
 
-            {/* Flechas */}
-            <button
-              onClick={handlePrev}
-              className="absolute left-1/2 top-2 -translate-x-1/2 rounded-full bg-black/60 p-2 text-slate-100 hover:bg-black/80 transition"
-            >
-              <ChevronUp className="h-4 w-4" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="absolute left-1/2 bottom-2 -translate-x-1/2 rounded-full bg-black/60 p-2 text-slate-100 hover:bg-black/80 transition"
-            >
-              <ChevronDown className="h-4 w-4" />
-            </button>
-
-            {/* Acciones a la derecha */}
-            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4">
+            {/* COLUMNA DE ACCIONES, AL COSTADO DE LA CÁPSULA */}
+            <div className="flex flex-col items-center gap-4">
+              {/* Usuario / perfil del creador */}
               <button className="flex flex-col items-center gap-1">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-tr from-cyan-400 via-purple-500 to-yellow-300 flex items-center justify-center text-xs font-bold">
                   A
@@ -256,6 +258,7 @@ const EmotionFeed: React.FC = () => {
                 <span className="text-[10px] text-slate-200">Seguir</span>
               </button>
 
+              {/* Like */}
               <button className="flex flex-col items-center gap-1">
                 <div className="h-10 w-10 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90">
                   <Heart className="h-5 w-5" />
@@ -265,6 +268,7 @@ const EmotionFeed: React.FC = () => {
                 </span>
               </button>
 
+              {/* Comentarios */}
               <button className="flex flex-col items-center gap-1">
                 <div className="h-10 w-10 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90">
                   <MessageCircle className="h-5 w-5" />
@@ -274,6 +278,7 @@ const EmotionFeed: React.FC = () => {
                 </span>
               </button>
 
+              {/* Guardados */}
               <button className="flex flex-col items-center gap-1">
                 <div className="h-10 w-10 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90">
                   <Bookmark className="h-5 w-5" />
@@ -283,6 +288,7 @@ const EmotionFeed: React.FC = () => {
                 </span>
               </button>
 
+              {/* Compartir */}
               <button className="flex flex-col items-center gap-1">
                 <div className="h-10 w-10 rounded-full bg-black/70 flex items-center justify-center hover:bg-black/90">
                   <Share2 className="h-5 w-5" />
@@ -292,6 +298,7 @@ const EmotionFeed: React.FC = () => {
                 </span>
               </button>
 
+              {/* Volumen (sólo si es video) */}
               {current.type === "video" && (
                 <button
                   onClick={toggleMute}
@@ -313,16 +320,16 @@ const EmotionFeed: React.FC = () => {
           </div>
         </section>
 
-        {/* Panel de emociones colapsable */}
+        {/* Panel de emociones a la derecha (colapsable, sin tapar la cápsula) */}
         <aside
-          className={`relative border-l border-slate-800 bg-[#020617] transition-all duration-300 flex-shrink-0 ${
-            showEmotionPanel ? "w-[360px]" : "w-6"
+          className={`relative border-l border-slate-800 bg-[#020617] transition-[width] duration-300 ease-in-out ${
+            showEmotionPanel ? "w-[380px]" : "w-10"
           }`}
         >
-          {/* Botón SIEMPRE visible */}
+          {/* Botón flotante para mostrar/ocultar panel */}
           <button
             onClick={() => setShowEmotionPanel((prev) => !prev)}
-            className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 rounded-full bg-slate-900 border border-slate-700 p-2 text-slate-200 hover:bg-slate-800 shadow-lg"
+            className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 rounded-full bg-slate-900 border border-slate-700 p-2 text-slate-200 hover:bg-slate-800 shadow-lg"
           >
             {showEmotionPanel ? (
               <span className="text-xs">&gt;</span>
@@ -331,7 +338,7 @@ const EmotionFeed: React.FC = () => {
             )}
           </button>
 
-          {/* Contenido solo cuando está abierto */}
+          {/* Contenido del panel sólo si está visible */}
           {showEmotionPanel && (
             <div className="h-full overflow-y-auto">
               <EmotionCam />
