@@ -252,7 +252,7 @@ const Privacidad: React.FC = () => {
             <p>Si tienes preguntas o deseas ejercer tus derechos, escríbenos:</p>
 
             <p className="mt-3 text-[#FEC914] font-semibold text-xl">
-              codesquad@gmai.com
+              codesquad@gmail.com
             </p>
           </Card>
 
